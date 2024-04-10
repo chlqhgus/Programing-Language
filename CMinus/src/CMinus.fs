@@ -9,27 +9,29 @@ let rec evalExp (exp: Exp) (mem: Mem) : Val =
   | Num i -> Int i
   | True -> Bool true
   | False -> Bool false
-  | Var s -> s 
+  | Var s -> 
+    try Map.find s mem with
+    | :? System.Collections.Generic.KeyNotFoundException -> Int -1
 
   | Add (x,y) -> 
     match evalExp x mem, evalExp y mem with
     | Int i1, Int i2 -> Int (i1+i2)
-    | _ -> Int (-1)
+    | _ -> raise UndefinedSemantics
 
   | Sub (x,y) ->
     match evalExp x mem, evalExp y mem with
     | Int i1, Int i2 -> Int (i1-i2)
-    | _ -> Int (-1)
+    | _ -> raise UndefinedSemantics
 
   | LessThan (x,y) -> 
     match evalExp x mem, evalExp y mem with
     | Int i1, Int i2 -> Bool (i1 < i2)
-    | _ -> Bool false
+    | _ -> raise UndefinedSemantics
   
   | GreaterThan (x,y) ->
     match evalExp x mem, evalExp y mem with
     | Int i1, Int i2 -> Bool (i1 > i2)
-    | _ -> Int (-1)
+    | _ -> raise UndefinedSemantics
 
   | Equal (x,y) -> Bool (evalExp x mem = evalExp y mem)
   | NotEq (x,y) -> Bool (evalExp x mem <> evalExp y mem)
@@ -52,6 +54,7 @@ let rec exec (stmt: Stmt) (mem: Mem) : Mem =
       let mem_f = exec s2 mem
       match tf with
       | Bool b -> if (b) then mem_t else mem_f
+      | _ -> raise UndefinedSemantics
   | While (e,s) -> 
       let tf = evalExp e mem
       match tf with
@@ -62,6 +65,7 @@ let rec exec (stmt: Stmt) (mem: Mem) : Mem =
           m2
         else
           mem
+      | _ -> raise UndefinedSemantics
   | _ -> raise UndefinedSemantics // TODO: fill in the remaining cases.
 
 // The program starts execution with an empty memory. Do NOT fix this function.
