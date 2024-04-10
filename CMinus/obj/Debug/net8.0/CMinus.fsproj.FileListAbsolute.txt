@@ -2,3 +2,4 @@
 /sogang/under/cse20221124/Lab2/CMinus/obj/Debug/net8.0/CMinus.AssemblyInfoInputs.cache
 /sogang/under/cse20221124/Lab2/CMinus/obj/Debug/net8.0/CMinus.AssemblyInfo.fs
 /sogang/under/cse20221124/Lab2/CMinus/obj/Debug/net8.0/CMinus.fsproj.CoreCompileInputs.cache
+/sogang/under/cse20221124/Lab2/CMinus/obj/Debug/net8.0/CMinus.sourcelink.json
